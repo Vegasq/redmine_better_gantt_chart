@@ -67,13 +67,35 @@
       "stroke-dasharray": relationDash[relationType]
     });
   };
+
+
+function get_follow_obj(parent_id_num){
+  var result = '';
+  parent_id_num = parseInt(parent_id_num, 10);
+  $('div.task_todo').each(function(element) {
+    var element = this;
+    var fid = parseInt(element.getAttribute('follows'), 10);
+    if(fid === parent_id_num){
+      result = this.getAttribute('id');
+    }
+  });
+  return result;
+}
+
+
   /*
   Draws connection arrows over the gantt chart
   */
   window.redrawGanttArrows = function() {
     var calculateAnchors, paper, relationAttrs;
-    paper = Raphael("gantt_lines", "100%", "100%");
-    paper.clear;
+    if(window.paper){
+      paper = window.paper;
+    } else {
+      paper = Raphael("gantt_lines", "100%", "100%");
+    }
+    var x = paper.clear();
+    console.log(x);
+
     window.paper = paper;
     paper.canvas.style.position = "absolute";
     paper.canvas.style.zIndex = "24";
@@ -87,13 +109,16 @@
       } else {
         typeOffsetX = 6;
       }
-      anchors = [fromOffsetX + from.width() - 1, fromOffsetY + from.height() / 2, toOffsetX - typeOffsetX, toOffsetY + to.height() / 2];
+      anchors = [fromOffsetX + from.width() - 100, fromOffsetY + from.height() / 2, toOffsetX - typeOffsetX, toOffsetY + to.height() / 2];
       return anchors;
     };
+    
+
     return $('div.task_todo').each(function(element) {
       var from, id, item, related, relationAttribute, to, _i, _len, _results;
       element = this;
       _results = [];
+
       for (_i = 0, _len = relationAttrs.length; _i < _len; _i++) {
         relationAttribute = relationAttrs[_i];
         _results.push((function() {
@@ -103,7 +128,11 @@
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               id = _ref[_i];
-              _results.push((item = $('#' + id)) ? (from = item, to = $('#' + element.id), (from.position() != null) && (to.position() != null) ? paper.ganttArrow(calculateAnchors(from, to), relationAttribute) : void 0) : void 0);
+              
+              to = $('#' + get_follow_obj(id)).parent();
+              from = $('#task_todo_i'+id).parent();
+
+              _results.push((item = $('#' + id))  ? (from, to, (from.position() != null) && (to.position() != null) ? paper.ganttArrow(calculateAnchors(from, to), relationAttribute) : void 0) : void 0);
             }
             return _results;
           }
