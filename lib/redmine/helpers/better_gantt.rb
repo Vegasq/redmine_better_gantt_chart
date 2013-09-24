@@ -1167,7 +1167,7 @@ module Redmine
 
           case options[:format]
           when :html
-            @calendars << "<div style='position: absolute;z-index:50;line-height:1.2em;height:16px;top:#{options[:top]}px;left:4px;overflow:hidden;width:180px;'>"
+            @calendars << "<div style='position: absolute;z-index:50;line-height:1.2em;height:16px;top:#{options[:top]}px;left:4px;overflow:hidden;width:260px;'>"
             start_date = issue.start_date
             if start_date
               @calendars << "<div style='float: left; line-height: 1em; width: 90px;'>"
@@ -1185,7 +1185,7 @@ module Redmine
             end
             due_date = issue.due_date
             if due_date
-              @calendars << "<div style='float: right; line-height: 1em; width: 90px;'>"
+              @calendars << "<div style='float: left; line-height: 1em; width: 90px;'>"
               @calendars << "<span id='i#{issue.id}_due_date_str'>"
               @calendars << format_date(due_date)
               @calendars << "</span>"
@@ -1198,7 +1198,7 @@ module Redmine
               @calendars << observe_date_field("i#{issue.id}", 'due')
               @calendars << "</div>"
             else
-              @calendars << "<div style='float: right; line-height: 1em; width: 90px;'>"
+              @calendars << "<div style='float: left; line-height: 1em; width: 90px;'>"
               @calendars << "<span id='i#{issue.id}_due_date_str'>"
               @calendars << "Not set"
               @calendars << "</span>"
@@ -1212,6 +1212,10 @@ module Redmine
               @calendars << "</div>"            
             end
             
+            diff_date = due_date - start_date + 1
+            @calendars << "<input  id='i#{issue.id}_change_by_input' class='small date_changer_input' onKeyDown='range_changed_from_input(event)' value='#{diff_date}' type='text' size='2' style='top:0;left:0;height: 10px;font-size: 11px;padding: 0;margin: 0; display: relative;'/>"
+            @calendars << "<!--<input id='i#{issue.id}_done_by_input' type='text'  class='small date_changer_input' value='#{issue.done_ratio}' onKeyDown='done_changed_from_input(event)'  size='1' style='top:0;left:0;height: 10px;font-size: 11px;padding: 0;margin: 0; display: relative;'>-->"
+
             @calendars << "</div>"
           when :image
             #nop
@@ -1249,13 +1253,13 @@ module Redmine
       def calendar_for_project(project, options)
         case options[:format]
         when :html
-          @calendars << "<div style='position: absolute;z-index:50;line-height:1.2em;height:16px;top:#{options[:top]}px;left:4px;overflow:hidden;width:180px;'>"
+          @calendars << "<div style='position: absolute;z-index:50;line-height:1.2em;height:16px;top:#{options[:top]}px;left:4px;overflow:hidden;width:260px;'>"
           @calendars << "<div style='float:left;width:90px;'>"
           @calendars << "<span id='p#{project.id}_start_date_str'>"
           @calendars << format_date(project.start_date) if project.start_date
           @calendars << "</span>"
           @calendars << "</div>"
-          @calendars << "<div style='float:right;width:90px;'>"
+          @calendars << "<div style='float:left;width:90px;'>"
           @calendars << "<span id='p#{project.id}_due_date_str'>"
           @calendars << format_date(project.due_date) if project.due_date
           @calendars << "</span>"

@@ -94,7 +94,6 @@ function get_follow_obj(parent_id_num){
       paper = Raphael("gantt_lines", "100%", "100%");
     }
     var x = paper.clear();
-    console.log(x);
 
     window.paper = paper;
     paper.canvas.style.position = "absolute";
