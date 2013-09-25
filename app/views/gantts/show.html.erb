@@ -50,7 +50,7 @@
 
   subject_width = 280
   header_heigth = 18
-  line_height = 18
+  line_height = 20
 
   show_years = true
   show_weeks = false
@@ -77,11 +77,13 @@
                 :zoom => zoom,
                 :g_width => g_width,
                 :subject_width => subject_width)
-  g_height = [(line_height + 1 * (@gantt.number_of_rows + 2)) + 0, 208 ].max
+  g_height = [(line_height * (@gantt.number_of_rows + 2)) + 0, 208 ].max
   t_height = g_height + headers_height;
   s_height = 24;
 %>
-
+<!--
+<%= @gantt.number_of_rows %> <%= g_height %> <%= headers_height %> <%= t_height %>
+-->
 <input type="hidden" name="_date_from" id="i_date_from" value="<%= h(@gantt.date_from) %>" />
 <input type="hidden" name="_date_to" id="i_date_to" value="<%= h(@gantt.date_to) %>" />
 <input type="hidden" name="zm" id="i_zm" value="<%= zoom %>" />
@@ -571,3 +573,9 @@ jQuery.extend({
 
 
 </script>
+
+<style type="text/css">
+  #content {
+      width: 90%;
+  }
+</style>
