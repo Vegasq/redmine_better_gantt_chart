@@ -521,10 +521,8 @@ function range_changed_from_input(event){
 
     var from_as_date = new Date(splitted_from[0], splitted_from[1] - 1, splitted_from[2]);
   
-    var to = new Date();
+    var to = new Date(from_as_date.getFullYear(), from_as_date.getMonth(), from_as_date.getDate());
     to.setDate(from_as_date.getDate() + days_to_inc);
-
-
 
     from_formated = from_as_date.getFullYear() + "-"
                 + ('0' + (from_as_date.getMonth()+1)).slice(-2) + "-"
@@ -535,15 +533,14 @@ function range_changed_from_input(event){
                 + ('0' + (to.getMonth()+1)).slice(-2) + "-"
                 + ('0' + to.getDate()).slice(-2);
 
+
     var v_date_from = document.getElementById('i_date_from').getAttribute("value");
     var v_date_to = document.getElementById('i_date_to').getAttribute("value");
-
 
     var v_pzm = document.getElementById('i_pzm').getAttribute("value");
 
     var url_str = '<%=  url_for(:controller=>:gantts, :action => :edit_gantt) %>';
     url_str = url_str + "/" + task_id + "?date_from=" + v_date_from + "&date_to=" + v_date_to + "&escape=false&project_id=<%= @project.to_param %>&zoom="+v_pzm;
-
 
     var jqxhr = $.post(url_str, 'due_date=' + encodeURIComponent(to_formated), null, 'text')
     .success(function(request) { change_dates(request); })

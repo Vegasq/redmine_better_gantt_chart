@@ -773,6 +773,10 @@ module Redmine
             text = set_version_data(i.fixed_version, pms[:zoom], text, version_map)
             is = i
           end
+
+          # x = Issue.where(:project_id => @issue.project_id)
+          # ActiveRecord::Base.logger.fatal x
+
           return text, 200
         rescue => e
           #render :text=>@issue.errors.full_messages.join("\n") + "|" + text_for_revert  , :status=>400
@@ -1214,7 +1218,7 @@ module Redmine
             
             diff_date = due_date - start_date + 1
             @calendars << "<input  id='i#{issue.id}_change_by_input' class='small date_changer_input' onKeyDown='range_changed_from_input(event)' value='#{diff_date}' type='text' size='2' style='top:0;left:0;height: 10px;font-size: 11px;padding: 0;margin: 0; display: relative;'/>"
-            @calendars << "<!--<input id='i#{issue.id}_done_by_input' type='text'  class='small date_changer_input' value='#{issue.done_ratio}' onKeyDown='done_changed_from_input(event)'  size='1' style='top:0;left:0;height: 10px;font-size: 11px;padding: 0;margin: 0; display: relative;'>-->"
+            # @calendars << "<input id='i#{issue.id}_done_by_input' type='text'  class='small date_changer_input' value='#{issue.done_ratio}' onKeyDown='done_changed_from_input(event)'  size='1' style='top:0;left:0;height: 10px;font-size: 11px;padding: 0;margin: 0; display: relative;'>"
 
             @calendars << "</div>"
           when :image
